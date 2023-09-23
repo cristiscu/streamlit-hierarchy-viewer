@@ -1,5 +1,5 @@
-Streamlit Hierarchy Viewer
-==========================
+Streamlit Hierarchy Data Viewer
+===============================
 
 Install as a Streamlit App in Snowflake. Or run as a local Streamlit web application querying Snowflake databases.
 
@@ -17,22 +17,22 @@ A large number of returned values will make of course your graph har to understa
 
 Hierarchical Relationships
 --------------------------
-For the most simple hierarchical relationship, select one column in the FROM field, and another in the TO field. The FROM must have the unique identifier of each row (the EMPLOYEE_ID in this case), and TO the optional parent identifier (MANAGER_ID). Select a more friendlier value in the Display Column (like the EMPLOEE_NAME), if you have one:
+For the most simple hierarchical relationship, select one column in the FROM field, and another in the TO field. The FROM must have the unique identifier of each row (the EMPLOYEE_ID in this case), and TO the optional parent identifier (MANAGER_ID). Select a more friendlier value in the *Display Column* (like the EMPLOYEE_NAME), if you have one:
 
 ![employee-manager-hierarchy](images/streamlit-hierarchy-2.png)
 
-By default, we display a child-parent dependency graph, with one single link from each node to its eventual oarent. Check the Reverse Directions checkbox, if you want to show a parent-child hierarchy instead, with child nodes under their parent:
+By default, we display a child-parent dependency graph, with one single link from each node to its eventual parent. Check the *Reverse Directions* checkbox, if you want to show a parent-child hierarchy instead, with child nodes under their parent:
 
 ![manager-employee-hierarchy](images/streamlit-hierarchy-3.png)
 
 Groups of Nodes
 ---------------
 
-Select a Group Column if you want all the nodes with the same value surrounded by a box, based on the group value. For instance, here are employees displayed by DEPARTMENT:
+Select a *Group Column* if you want all the nodes with the same value surrounded by a box, based on the group value. For instance, here are employees displayed by DEPARTMENT:
 
 ![group-by-department](images/streamlit-hierarchy-4.png)
 
-You may also group the employees by their JOB. The sidebar can be collapsed, to make more space. And the whole graph can be resized to the browser's window size:
+You may also group the employees by their JOB titles. The sidebar can be collapsed, to make more space. And the whole graph can be resized to the browser's window size:
 
 ![group-by-job](images/streamlit-hierarchy-7.png)
 
@@ -45,7 +45,7 @@ Some other interesting use cases here could be:
 Bubble Charts
 -------------
 
-As an alternative, you may select a numeric value instead, to display a Bubble Chart. Each node here appears as a circle with the radius proportional to employee's SALARY, with this value passed as a tooltip:
+As an alternative, you may select a numeric value instead, in the *Value Column* field, to display a Bubble Chart. Each node here appears as a circle with the radius proportional to employee's SALARY, with this value passed as a tooltip:
 
 ![bubble-chart-by-salary](images/streamlit-hierarchy-5.png)
 
@@ -56,7 +56,7 @@ Remark that you can combine both as well. The employee nodes can be grouped in D
 Expand All
 ----------
 
-When you want to display each node shape with the full information you received for each row, check the Expand All box. Beware you may return too much information, hard to process and to see on screen. But this is helpful when you want to see directly related node values, without goung back and forth between the graph and the dataset:
+When you want to display each node shape with the full information you received for each row, check the *Expand All* box. Beware you may return too much information, hard to process and to see on screen. But this is helpful when you want to see directly related node values, without going back and forth between the graph and the dataset:
 
 ![expand-all](images/streamlit-hierarchy-10.png)
 
