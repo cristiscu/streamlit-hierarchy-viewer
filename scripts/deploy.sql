@@ -19,11 +19,11 @@ COPY INTO employees FROM @stage/data
     FILE_FORMAT = (TYPE=CSV SKIP_HEADER=1 FIELD_OPTIONALLY_ENCLOSED_BY='"'
         NULL_IF='' EMPTY_FIELD_AS_NULL=true);
 
-PUT file://C:\Projects\streamlit-apps\streamlit-hierarchy-viewer\main.py @stage
+PUT file://C:\Projects\streamlit-apps\streamlit-hierarchy-viewer\app.py @stage
     overwrite=true auto_compress=false;
 
 CREATE STREAMLIT streamlit_hierarchy_viewer
     ROOT_LOCATION = '@streamlit_hierarchy_viewer.public.stage'
-    MAIN_FILE = '/main.py'
+    MAIN_FILE = '/app.py'
     QUERY_WAREHOUSE = "COMPUTE_WH";
 SHOW STREAMLITS;

@@ -76,4 +76,4 @@ Setup Instructions
 * [Install SnowSQL](https://docs.snowflake.com/en/user-guide/snowsql-install-config). Locate the **`~/.snowsql/config`** file. Add a **[connection.my_conn]** section with the Snowflake *accountname*, *username* and *password*.
 * In **scripts.deploy.sql**, adjust the path from the PUT statements to your local files. Then call **`snowsql -c my_conn -f scripts/deploy.sql`**, to install this as a Streamlit App in your Snowflake account, with a test **employees** table in the same schema. Got to your Streamlit tab in Snowsight, and test the Streamlit App right away.
 * For local tests, create and switch to a *local environment*, using a Python version supported by Snowpark. Install the dependencies from the **requirements.txt** file (Streamlit and Snowpark).
-* Call **`streamlit run main.py`**, to test and run the application locally, as a Streamlit web app.
+* Call **`streamlit run app.py`**, to test and run the application locally, as a Streamlit web app.
