@@ -33,7 +33,7 @@ def getShape(row, cols, fromCol, toCol, displayCol, all, v, t):
     return f'\n\t{t}n{str(row[fromToCol])}{display};'
 
 # returns a DOT graphviz chart
-def makeGraph(df, cols, fromCol, toCol, displayCol, groupCol, valueCol, rev, all):
+def makeGraph(rows, cols, fromCol, toCol, displayCol, groupCol, valueCol, rev, all):
     s = ""; t = ""
     if fromCol == '': return s
 
@@ -102,15 +102,27 @@ def getSession():
         }
         return Session.builder.configs(pars).create()
 
+# get column names (and numeric-only column names)
+def getColNames(res):
+    cols = res.columns.copy()
+    dtypes = res.to_pandas().dtypes.values
+    colsN = []
+    l = len(cols) - 1
+    for i in range(l):
+        if str(dtypes[i]).startswith("int") \
+            or str(dtypes[i]).startswith("float"):
+            colsN.append(cols[i])
+    cols.insert(0, "")
+    colsN.insert(0, "")
+    return tuple(cols), tuple(colsN)
+    
 # run the SQL query, when changed
 @st.cache_resource(show_spinner="Executing the SQL query...")
 def runQuery(query):
     res = getSession().sql(query)
     rows = res.collect()
-    cols = res.columns.copy()
-    cols.insert(0, "")
-    cols = tuple(cols)
-    return rows, cols
+    cols, colsN = getColNames(res)
+    return rows, cols, colsN
 
 tabQuery, tabGraph, tabCode = st.tabs(["SQL Query", "Graph", "DOT Code"])
 
@@ -120,15 +132,16 @@ if query not in st.session_state or st.session_state["query"] != query:
     if tabQuery.button("Run"):
         st.session_state["query"] = query
 
-rows, cols = runQuery(query)
+rows, cols, colsN = runQuery(query)
 df = tabQuery.dataframe(rows, use_container_width=True)
 
-fromCol = st.sidebar.selectbox('FROM Column', cols, help='The unique identifier of each row')
-toCol = st.sidebar.selectbox('TO Column', cols, help='The foreign key column, that makes the hierarchy')
+# st.sidebar.header("Graph Configuration")
+fromCol = st.sidebar.selectbox('Child Column', cols, help='The unique identifier of each row')
+toCol = st.sidebar.selectbox('Parent Column', cols, help='The foreign key column, that makes the hierarchy')
 rev = st.sidebar.checkbox('Reverse Directions', help='Switch all relationship directions')
 displayCol = st.sidebar.selectbox('Display Column', cols, help='Friendly row identifier value')
 groupCol = st.sidebar.selectbox('Group Column', cols, help='If you want to group rows by a value')
-valueCol = st.sidebar.selectbox('Value Column', cols, help='Show bubbles resized by this value')
+valueCol = st.sidebar.selectbox('Value Column', colsN, help='Show bubbles resized by this value')
 all = st.sidebar.checkbox('Expand All', help='Tp show all row values as shape properties')
 
 s = makeGraph(rows, cols, fromCol, toCol, displayCol, groupCol, valueCol, rev, all)

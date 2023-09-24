@@ -17,7 +17,7 @@ A large number of returned values will make of course your graph har to understa
 
 Hierarchical Relationships
 --------------------------
-For the most simple hierarchical relationship, select one column in the FROM field, and another in the TO field. The FROM must have the unique identifier of each row (the EMPLOYEE_ID in this case), and TO the optional parent identifier (MANAGER_ID). Select a more friendlier value in the *Display Column* (like the EMPLOYEE_NAME), if you have one:
+For the most simple hierarchical relationship, select one column in the *Child Column*, and another in the *Parent Column*. The child must have the unique identifier of each row (the EMPLOYEE_ID in this case), and the parent an optional identifier of a related row (the MANAGER_ID). Select a more friendlier value in the *Display Column* (like the EMPLOYEE_NAME), if you have one:
 
 ![employee-manager-hierarchy](images/streamlit-hierarchy-2.png)
 
