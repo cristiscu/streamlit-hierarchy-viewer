@@ -47,7 +47,7 @@ def makeGraph(rows, cols, fromCol, toCol, displayCol, groupCol, valueCol, rev, a
 
     # add groups (as subgraph clusters)
     if groupCol != '':
-        df.sort(key=lambda x: x[groupCol])
+        rows.sort(key=lambda x: x[groupCol])
         t = "\t"
 
     # add nodes
@@ -103,9 +103,7 @@ def getSession():
         return Session.builder.configs(pars).create()
 
 # get column names (and numeric-only column names)
-def getColNames(res):
-    cols = res.columns.copy()
-    dtypes = res.to_pandas().dtypes.values
+def getColNames(cols, dtypes):
     colsN = []
     l = len(cols) - 1
     for i in range(l):
@@ -121,9 +119,12 @@ def getColNames(res):
 def runQuery(query):
     res = getSession().sql(query)
     rows = res.collect()
-    cols, colsN = getColNames(res)
+    cols = res.columns.copy()
+    dtypes = pd.DataFrame(rows).dtypes.values
+    cols, colsN = getColNames(cols, dtypes)
     return rows, cols, colsN
 
+st.set_page_config(layout="wide")
 tabQuery, tabGraph, tabCode = st.tabs(["SQL Query", "Graph", "DOT Code"])
 
 sql = "select * from streamlit_hierarchy_viewer.public.employees;"
